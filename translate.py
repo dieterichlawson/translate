@@ -6,6 +6,7 @@ dictionary = defaultdict(list)
 text = []
 
 def load_text(filename):
+  #loads the source text in Dutch from file 'filename'
   sentence_delim = '(\?|\.)\s?'
   textfile = open(filename)
   for line in textfile:
@@ -18,6 +19,7 @@ def load_text(filename):
   textfile.close()
 
 def load_dict(filename):
+  #loads the dictionary from file 'filename'
   dictfile = open(filename)
   for line in dictfile:
     word = line.split(":")[0].lower()
