@@ -14,6 +14,8 @@ def load_dict(filename):
     for definition in deftext.split(","):
       definitions.append(definition.strip())
     dictionary[word] = definitions
+    if '_' in word:
+      dictionary[word.split('_')[0]].extend(definitions)
   dictfile.close()
 
 def get_definitions(word,pos):
@@ -36,4 +38,3 @@ def load_text(filename):
 
 load_text('text.txt')
 load_dict('dict.txt')
-
