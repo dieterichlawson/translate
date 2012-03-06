@@ -1,3 +1,4 @@
+is:is
 ik:I
 geloof_N:belief, faith, confidence, trust
 geloof_V:believe, have faith in, trust, have confidence in, think, reckon
