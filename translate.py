@@ -8,8 +8,10 @@ text = []
 def load_text(filename):
   #loads the source text in Dutch from file 'filename'
   sentence_delim = '(\?|\.)\s?'
+  comma_sub = '\s?,\s?'
   textfile = open(filename)
   for line in textfile:
+    line = re.sub(comma_sub,' , ',line)
     sentences = re.split(sentence_delim,line)
     for sentence, delim in zip(sentences[::2],sentences[1::2]):
       words = sentence.split(' ')
@@ -40,3 +42,8 @@ def get_definitions(word,pos):
 
 load_text('text.txt')
 load_dict('dict.txt')
+
+#for sentence in text:
+#  print sentence
+#for item in dictionary.items():
+#  print "%s: %s" % item
