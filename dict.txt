@@ -1,4 +1,4 @@
-k: I
+Ik:I
 geloof_N:belief, faith, confidence, trust
 geloof_V:believe, have faith in, trust, have confidence in, think, reckon
 in: in
@@ -79,7 +79,7 @@ gezien: seen, because of
 een: a, an
 atypische: atypical
 maar: but, however
-geenszins
+geenszins: in no way
 minderwaardige: inferior
 hersenstructuur: brain structure
 iets: something, aught, some
