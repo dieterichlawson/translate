@@ -12,6 +12,7 @@ def load_text(filename):
   textfile = open(filename)
   for line in textfile:
     line = re.sub(comma_sub,' , ',line)
+    line = line.lower()
     sentences = re.split(sentence_delim,line)
     for sentence, delim in zip(sentences[::2],sentences[1::2]):
       words = sentence.split(' ')
@@ -34,15 +35,46 @@ def load_dict(filename):
       dictionary[word.split('_')[0]].extend(definitions)
   dictfile.close()
 
-def get_definitions(word,pos):
-  if pos in locals():
+def get_definitions(word,pos=None):
+  if pos != None and len(dictionary[word+'_'+pos]) > 0:
     return dictionary[word+'_'+pos]
   else:
     return dictionary[word]
 
+def get_pos(word,index,sentence):
+  return None
+
+def translate(source,dictionary):
+  punctuation = '.,?'
+  translated = []
+  for sentence in source:
+    trans_sentence = []
+    for i,word in enumerate(sentence):
+      if len(word) == 1 and word in punctuation:
+        trans_sentence.append(word)
+        continue
+      pos = get_pos(word,i,sentence)
+      if pos != None:
+        trans_sentence.append(get_definitions(word,pos)[0])
+      else:
+        trans_sentence.append(get_definitions(word)[0])
+    translated.append(trans_sentence)
+  return translated
+
+def print_text(sentences):
+  for s in sentences:
+    sentence = ' '.join(s)
+    sentence = re.sub('\s,\s',', ',sentence)
+    sentence = re.sub('\s\.','.',sentence)
+    sentence = re.sub('\s\?','?',sentence)
+    sentence = sentence[0].upper() + sentence[1:]
+    print sentence
+
 load_text('text.txt')
 load_dict('dict.txt')
 
+translated = translate(text,dictionary)
+print_text(translated)
 #for sentence in text:
 #  print sentence
 #for item in dictionary.items():
