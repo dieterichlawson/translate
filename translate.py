@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from collections import defaultdict 
+from collections import defaultdict
+from nltk import tag
 import re
 
 dictionary = defaultdict(list)
@@ -106,11 +107,25 @@ def print_text(sentences):
     sentence = sentence[0].upper() + sentence[1:]
     print sentence
 
+print "Loading source text..."
 load_text('text.txt')
+print "Loading dictionary..."
 load_dict('dict.txt')
 
+print "Doing first translation pass."
 translated = translate(text,dictionary)
-print_text(translated)
+
+print "Tagging..."
+tagger = tag.StanfordTagger('stanford-tagger/models/english-bidirectional-distsim.tagger','stanford-tagger/stanford-postagger.jar')
+tagged = []
+for i,sentence in enumerate(translated):
+  tagged.append(tagger.tag(sentence))
+  print "Tagged sentence %d of %d" % (i+1,len(translated))
+
+for sentence in tagged:
+  print sentence
+
+#print_text(translated)
 #for sentence in text:
 #  print sentence
 #for item in dictionary.items():
