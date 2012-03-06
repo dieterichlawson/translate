@@ -36,5 +36,45 @@ def load_text(filename):
       text.append(words)
   textfile.close()
 
+def isVowel(letter):
+	letter = letter.lower()
+	if letter=='a' or letter='e' or letter='o' or letter == 'u' or letter=='i':
+		return True
+	else:
+		return False
+
+def translate_word(currWord, prevWords, nextWord):
+	if currWord=='dan':
+		if prevWords[-1][-2:]=='er':
+			return 'than'
+		else:
+			return 'then'
+	elif currWord=='mis':
+		lowerPrev = prevWords[-1]
+		if lowerPrev =='de':
+			return 'mass'
+		elif lowerPrev == 'ik':
+			return 'miss'
+		else:
+			return 'wrong'
+	elif currWord=='een':
+		if nextWord!='' and isVowel(translate_word(nextWord)[0]):
+			return 'an'
+		else
+			return 'a'
+	elif (currWord=='de' or currWord=='het') and len(prevWords)> 0 and prevWords[-1]=='van':
+		if len(prevWords) > 1 and prevWords[-2][-4:]=='heid':
+			return ''
+		else:
+			return 'the'
+	elif currWord=='iets':
+		if nextWord !='' and nextWord[-2:]=='er':
+			return 'a little'
+		else:
+			return 'something'
+	else:
+		return lookup_in_dict(currWord)
+	
+
 load_text('text.txt')
 load_dict('dict.txt')
