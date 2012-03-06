@@ -1,0 +1,115 @@
+k: I
+geloof_N:belief, faith, confidence, trust
+geloof_V:believe, have faith in, trust, have confidence in, think, reckon
+in: in
+de: the
+schoonheid: beauty
+van: of
+inspanning: effort
+en: and
+simpele: simple
+constatering: observation
+dat: that
+het: the
+student: student
+zelf: himself, herself
+die: that, who
+diploma: diploma, degree
+moet: must
+behalen: get, win, acquire, accomplish, attain, earn, reach
+niemand:no-one, nobody
+anders: differently
+dat: which, who, that, those, what
+laatste: last
+lijkt: seem, resemble
+vanzelfsprekend:self-evident
+toch: yet,then, surely, therefore, however, so
+onderwijskundigen: education experts
+allerlei: variety of
+pluimage: plumage, different sorts
+die: which, who, that, those, what
+slechts: only, merely
+door: by
+lelijke: ugly
+onaantrekkelijkheid: unattractiveness
+met: with, on, through
+elkaar: each other
+verbonden: connected
+beweren: claim, state, assert
+docenten: teachers
+falen: fail
+als: if, when
+studenten: students
+zakken_N: bags
+zakken_V:lower,sink,subside,founder,vail
+kregen: received
+voldoende: sufficient, enough
+begeleiding: support, supervision, counseling
+stond: stood, was
+er: there
+altijd: always
+iemand: someone, somebody
+ter: to, at
+beschikking: disposal,available
+hen: them
+leerde: taught
+te: to
+leren: learn, study
+Werd: was
+rekening: account
+gehouden: held, account
+hun: their
+karakter: character, personality
+misschien: maybe
+zijn: are, to be
+ze: they, she
+schuchter: timid, coy
+hebben: have, possess
+nood: need, want
+aan: to,on,at,in,by,upon,beside
+geruststellende: reassuring
+woorden: words, terms
+vooraleer: before
+mondelinge: oral
+examen: exam
+start: start, take-off
+gaat: is, will, goes
+onder: under
+gezien: seen, because of
+een: a, an
+atypische: atypical
+maar: but, however
+geenszins
+minderwaardige: inferior
+hersenstructuur: brain structure
+iets: something, aught, some
+trager: slower
+denken: think
+waardoor: so, through what
+bij: at, in through
+schriftelijk: written
+niet: not
+over: about, across, on, over, of
+twee: two
+drie: three
+uur: hour, hours
+moeten: should, must, need, have to
+beschikken: have
+wie: who
+weet: know, knows
+mis_A: wrong
+mis_N: mass
+bioritme: biorythm
+examens: exams
+beter: better
+worden: become, are
+gespreid: spread
+veronderstel: suppose
+dyslectisch: dyslexic
+dan: than, then
+dienen: should, must, serve, minister
+spelfouten: spelling errors
+mantel: cloak
+der: of
+liefde: love
+bedekt: covered
