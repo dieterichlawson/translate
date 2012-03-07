@@ -53,10 +53,10 @@ def isVowel(letter):
   return letter.lower() in vowels
 
 def is_personal_pronoun(word):
-	if word=='ik' or word == 'jij' or word =='u' or word=='hij' or word=='zij' or word == 'wij' or word =='jullie' or word == 'gij' or word == 'ge'or word == 'we':
-		return True
-	else:
-		return False
+  if word=='ik' or word == 'jij' or word =='u' or word=='hij' or word=='zij' or word == 'wij' or word =='jullie' or word == 'gij' or word == 'ge'or word == 'we':
+    return True
+  else:
+return False
 
 
 def translate_word(currWord, prevWords, nextWord):
@@ -106,13 +106,13 @@ def translate(source,dictionary,with_rules):
       if pos != None:
         trans_sentence.append(get_definitions(word,pos)[0])
       else:
-	if with_rules:
-		if i < sentence_length -1:
-        		trans_sentence.append(translate_word(word,processed_words,sentence[i+1]))
-		else:
-        		trans_sentence.append(translate_word(word,processed_words,""))
+        if with_rules:
+          if i < sentence_length -1:
+            trans_sentence.append(translate_word(word,processed_words,sentence[i+1]))
+          else:
+            trans_sentence.append(translate_word(word,processed_words,""))
         else:
-		trans_sentence.append(get_definitions(word)[0])
+          trans_sentence.append(get_definitions(word)[0])
       processed_words.append(word)
     translated.append(trans_sentence)
   return translated
@@ -134,10 +134,10 @@ load_dict('dict.txt')
 print "Doing first translation pass."
 translated = translate(text,dictionary,True)
 for sentence in translated:
-	result = ""
-	for word in sentence:
-		result += word + " "
-	print result
+  result = ""
+  for word in sentence:
+    result += word + " "
+  print result
 
 print "Tagging..."
 tagger = tag.StanfordTagger('stanford-tagger/models/english-bidirectional-distsim.tagger','stanford-tagger/stanford-postagger.jar')
@@ -147,7 +147,7 @@ for i,sentence in enumerate(translated):
   print "Tagged sentence %d of %d" % (i+1,len(translated))
 
 for sentence in tagged:
-  	print sentence
+  print sentence
 
 #print_text(translated)
 #for sentence in text:
