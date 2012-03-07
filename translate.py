@@ -56,7 +56,7 @@ def is_personal_pronoun(word):
   if word=='ik' or word == 'jij' or word =='u' or word=='hij' or word=='zij' or word == 'wij' or word =='jullie' or word == 'gij' or word == 'ge'or word == 'we':
     return True
   else:
-return False
+    return False
 
 
 def translate_word(currWord, prevWords, nextWord):
