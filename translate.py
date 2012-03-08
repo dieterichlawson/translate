@@ -163,16 +163,16 @@ text.load()
 tagged = text.tagged
 
 print "Reordering..."
-
+print tagged
 reordered = []
 for i,sentence in enumerate(tagged):
   tagged[i] = fix_question(sentence)
   tagged[i] = reorder_subclause(tagged[i])
   tagged[i] = reorder_adverb_verb(tagged[i])
   tagged[i] = disamb_which(tagged[i])
-  #tagged[i] = rearrange_modals(tagged[i])
-  #tagged[i] = rearrange_modal_verbs(tagged[i])
-  #tagged[i] = disamb_become(tagged[i])
+  tagged[i] = rearrange_modals(tagged[i])
+  tagged[i] = rearrange_modal_verbs(tagged[i])
+  tagged[i] = disamb_become(tagged[i])
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])

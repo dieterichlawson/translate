@@ -27,3 +27,24 @@ the' if the following word is a noun.
 
 - 
 
+SHOULD/MUST RULES
+    In Dutch many of the 'modals' (should,must,may,etc...) are placed differently than in English.
+    Many times they are at the end of the sentence after the direct object, or far from the subject,
+    giving phrases like 'the diploma must get' and 'exams better should become spread'.
+    Additionally, the modals are sometimes not next to the verb that they modify, which
+    gives awkward phrases like 'should spelling errors with the cloak of love be covered'.
+
+    This rule attempts to reorder the modal phrases to be Subject - Modal - Verb - Direct Object,
+    e.g. "The pigs should eat their food".
+
+    The first step, rearrange_modals, looks for noun phrases around any modals in a sentence. If a
+    noun phrase is found to the left but not to the right, we can assume that it is situated after the DO
+    and move it into position after the DO. If there is a noun phrase to the right but not the left,
+    we can assume that it is situated before the subject and relocate it after the subject. If there are
+    noun phrases on both sides, we assume it is in order and leave it alone.
+
+    In the second step, rearrange_modal_verbs, we check and see if the verb phrase that the modal modifies
+    is next to it, and if it isn't, we relocate it. This amounts to scanning for a verb phrase
+    after the position of the modal, and moving it next to the modal if it isn't already there.
+
+    The last step, disamb_become, simple changes all instances of 'should become' to 'should be'.
