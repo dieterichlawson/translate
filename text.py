@@ -77,7 +77,7 @@ def load_cache():
   for line in in_tagged:
     taglist = []
     for pair in line.split('|'):
-      taglist.append((pair.split('_')[0],pair.split('_')[1]))
+      taglist.append((pair.split('_')[0],pair.split('_')[1].strip()))
     tagged.append(taglist)
   in_tagged.close()
 
