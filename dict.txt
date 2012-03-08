@@ -40,8 +40,7 @@ docenten: teachers
 falen: fail
 als: if, when
 studenten: students
-zakken_N: bags
-zakken_V:subside
+zakken: sink
 kregen: received
 voldoende: sufficient
 begeleiding: support
@@ -98,6 +97,7 @@ beschikken: have
 wie: who
 weet: know
 mis_A: wrong
+mis_V: miss
 mis_N: mass
 bioritme: biorhythm
 examens: exams
