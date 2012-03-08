@@ -14,16 +14,21 @@ tagger = tag.StanfordTagger('stanford-tagger/models/english-bidirectional-distsi
 pronouns = ['ik','jij','u','hij','zij','wij','jullie','gij','ge','we']
 
 def load(textfile = "text.txt", dictfile='dict.txt', with_rules=True,use_cache=True):
+  print "Loading text..."
   load_text(textfile)
+  print "Loading dictionary..."
   load_dict(dictfile)
   cache_exists = os.path.isfile(translated_file)
   cache_exists = cache_exists and os.path.isfile(tagged_file)
   if not use_cache or not cache_exists:
+    print "Doing first translation pass..."
     translate(with_rules)
+    print "Tagging..."
     tag()
     clear_cache()
     write_cache()
   else:
+    print "Loading translation and tagged words from cache..."
     load_cache()
 
 def get_definition_with_rules(currIndex,words):
