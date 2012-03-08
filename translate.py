@@ -67,26 +67,29 @@ def fix_question(sentence):
   return sentence
 
 def disamb_it(tagged_sentence):
-	sentence_len = len(tagged_sentence)
-	result = []
-	for i,tup in enumerate(tagged_sentence):
-		result_tup = tup
-		if i < sentence_len-1 and tup[0]=='it' and tagged_sentence[i+1][1][:2] == 'NN':	
-			result_tup = ('the','DT')	
-		result.append(result_tup)
-	return result
+  sentence_len = len(tagged_sentence)
+  result = []
+  for i,tup in enumerate(tagged_sentence):
+    result_tup = tup
+    if i < sentence_len-1 and tup[0]=='it' and tagged_sentence[i+1][1][:2] == 'NN':
+      result_tup = ('the','DT')
+    result.append(result_tup)
+  return result
 
 def disamb_which(tagged_sentence):
-	sentence_len = len(tagged_sentence)
-	result = []
-	for i,tup in enumerate(tagged_sentence):
-		result_tup = tup
-		if i > 0 and tup[0]=='which' and tagged_sentence[i-1][1] == 'PRP':	
-			result_tup = ('who','WPRO')	
-		result.append(result_tup)
-	return result
-	
-#load the text, etc...
+  sentence_len = len(tagged_sentence)
+  result = []
+  for i,tup in enumerate(tagged_sentence):
+    result_tup = tup
+    if i > 0 and tup[0]=='which' and tagged_sentence[i-1][1] == 'PRP':
+      result_tup = ('who','WPRO')
+    result.append(result_tup)
+  return result
+
+#if you don't want to use the cache, use this line:
+#text.load('text.txt','dict.txt',True,False)
+
+#otherwise, just do this:
 text.load()
 
 #grab the tagged words from the text module
@@ -100,14 +103,14 @@ print "Reordering..."
 
 reordered = []
 for i,sentence in enumerate(tagged):
-    	tagged[i] = fix_question(sentence)
-	tagged[i]= reorder_subclause(tagged[i])
-	tagged[i]= reorder_adverb_verb(tagged[i])
-	tagged[i]= disamb_which(tagged[i])
-	not_tagged = []	
-	for tup in tagged[i]:
-		not_tagged.append(tup[0])
-	reordered.append(not_tagged)
+  tagged[i] = fix_question(sentence)
+  tagged[i]= reorder_subclause(tagged[i])
+  tagged[i]= reorder_adverb_verb(tagged[i])
+  tagged[i]= disamb_which(tagged[i])
+  not_tagged = []  
+  for tup in tagged[i]:
+    not_tagged.append(tup[0])
+  reordered.append(not_tagged)
 
 print_text(reordered)
 
