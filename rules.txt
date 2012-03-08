@@ -7,8 +7,11 @@ The first verb is the VERB. We then move the VERB to the position right after th
 
 - In Dutch, sentences can start with 'Adverb Verb Subject ...'. In these sentences we switch verb and subject. to create a better sounding English sentence. 
 
+- QUESTION RULE
 
 disambiguation rules
+
+- Dutch doesn't always distinguish between 'which' and 'who' if we see a 'which' and the word before is tagged as a 'personal pronoun' we change it into 'who'
 
 - 'het' can be 'it' or 'the'. We translate it as 'it' and change it to 
 the' if the following word is a noun.
