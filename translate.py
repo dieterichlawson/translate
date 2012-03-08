@@ -70,7 +70,7 @@ def get_definition_with_rules(currIndex,words):
     lowerPrev = prevWords[-1]
     if lowerPrev =='de':
       return 'mass'
-    elif lowerPrev == 'ik':
+    elif is_personal_pronoun(lowerPrev):
       return 'miss'
     else:
       return 'wrong'
@@ -84,6 +84,7 @@ def get_definition_with_rules(currIndex,words):
       return ''
     else:
       return 'the'
+  
   elif currWord=='iets':
     if nextWord !='' and nextWord[-2:]=='er':
       return 'a little'
@@ -130,6 +131,8 @@ def reorder_subclause(tagged_sentence):
 	for index,tup in enumerate(tagged_sentence):
 		if prev_is_noun_or_verb and tup[1] == 'IN':
 			in_subclause = True
+			subject_index = -1
+			verb_index = -1
 		if tup[1] == 'NN' or tup[1] == 'NNS' or tup[1][:2] == 'VB':
 			prev_is_noun_or_verb = True
 		else:
@@ -139,14 +142,21 @@ def reorder_subclause(tagged_sentence):
 				verb_index = index
 			elif subject_index == -1 and (tup[1][:2]=='NN' or tup[1]=='PRP'):
 				subject_index = index
-	if subject_index != -1 and verb_index  != -1:
+		if subject_index != -1 and verb_index  != -1:
+			result = tagged_sentence
+			verb = result.pop(verb_index)
+			result.insert(subject_index+1,verb)
+			return result
+	return tagged_sentence	
+		
+def reorder_adverb_verb(tagged_sentence):
+	if len(tagged_sentence) > 2 and tagged_sentence[0][1]=='RB' and tagged_sentence[1][1][:2]=='VB' and (tagged_sentence[2][1] == 'PRP' or tagged_sentence[2][1] == 'EX' or tagged_sentence[2][1][:2] == 'NN'):
 		result = tagged_sentence
-		verb = result.pop(verb_index)
-		result.insert(subject_index+1,verb)
+		verb = result.pop(1)
+		result.insert(2,verb)
 		return result
 	else:
-		return tagged_sentence	
-		
+		return tagged_sentence
 		
 def tag_sentences(sentences):
   tagged = []
@@ -154,6 +164,17 @@ def tag_sentences(sentences):
     tagged.append(tagger.tag(sentence))
     print "Tagged sentence %d of %d" % (i+1,len(sentences))
   return tagged
+
+def disamb_it(tagged_sentence):
+	sentence_len = len(tagged_sentence)
+	result = []
+	for i,tup in enumerate(tagged_sentence):
+		result_tup = tup
+		if i < sentence_len-1 and tup[0]=='it' and tagged_sentence[i+1][1][:2] == 'NN':	
+			result_tup = ('the','DT')	
+		result.append(result_tup)
+	return result
+		
 
 print "Loading source text..."
 load_text('text.txt')
@@ -168,18 +189,19 @@ print_text(translated)
 print "Tagging..."
 tagged = tag_sentences(translated)
 
-for sentence in tagged:
-  	#print sentence
-	uselessVariable = 0
+for i,sentence in enumerate(tagged):
+  	print sentence
+	tagged[i] = disamb_it(sentence)
 
 print "Reordering..."
+reordered = []
 for sentence in tagged:
+	not_tagged = []	
 	reordered_sentence = reorder_subclause(sentence)
-	print "new sentence:"
-	res = ""
+	reordered_sentence = reorder_adverb_verb(reordered_sentence)
 	for tup in reordered_sentence:
-		res += tup[0].rstrip('\n') + " "
-	print res
-
+		not_tagged.append(tup[0])
+	reordered.append(not_tagged)
+print_text(reordered)
 
 #print_text(translated)
