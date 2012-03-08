@@ -5,6 +5,8 @@ import re
 
 dictionary = defaultdict(list)
 text = []
+tagger = tag.StanfordTagger('stanford-tagger/models/english-bidirectional-distsim.tagger','stanford-tagger/stanford-postagger.jar')
+pronouns = ['ik','jij','u','hij','zij','wij','jullie','gij','ge','we']
 
 def load_text(filename):
   #loads the source text in Dutch from file 'filename'
@@ -38,7 +40,6 @@ def load_dict(filename):
 
 def get_definitions(word,pos=None):
   if pos != None and len(dictionary[word+'_'+pos]) > 0:
-    print 'Received a pos ' + pos + ' for word ' + word
     return dictionary[word+'_'+pos]
   else:
     return dictionary[word]
@@ -53,13 +54,13 @@ def isVowel(letter):
   return letter.lower() in vowels
 
 def is_personal_pronoun(word):
-  if word=='ik' or word == 'jij' or word =='u' or word=='hij' or word=='zij' or word == 'wij' or word =='jullie' or word == 'gij' or word == 'ge'or word == 'we':
-    return True
-  else:
-return False
+  return word in pronouns
 
-
-def translate_word(currWord, prevWords, nextWord):
+def get_definition_with_rules(currIndex,words):
+  currWord = words[currIndex]
+  nextWord = ''
+  if currIndex < len(words) -1: nextWord = words[currIndex+1]
+  prevWords = words[:currIndex]
   if currWord=='dan':
     if prevWords[-1][-2:]=='er':
       return 'than'
@@ -74,7 +75,7 @@ def translate_word(currWord, prevWords, nextWord):
     else:
       return 'wrong'
   elif currWord=='een':
-    if nextWord!='' and isVowel(translate_word(nextWord,[],[])[0]):
+    if nextWord!='' and isVowel(get_definition_with_rules(0,[currWord])[0]):
       return 'an'
     else:
       return 'a'
@@ -89,31 +90,26 @@ def translate_word(currWord, prevWords, nextWord):
     else:
       return 'something'
   else:
-      return get_definitions(currWord)[0]
+    return get_definitions(currWord)[0]
 
 def translate(source,dictionary,with_rules):
   punctuation = '.,?'
   translated = []
   for sentence in source:
     trans_sentence = []
-    sentence_length = len(sentence)
-    processed_words = []
     for i,word in enumerate(sentence):
+      trans_word = ''
       if len(word) == 1 and word in punctuation:
         trans_sentence.append(word)
         continue
-      pos = get_pos(word,i,sentence)
-      if pos != None:
-        trans_sentence.append(get_definitions(word,pos)[0])
-      else:
-        if with_rules:
-          if i < sentence_length -1:
-            trans_sentence.append(translate_word(word,processed_words,sentence[i+1]))
-          else:
-            trans_sentence.append(translate_word(word,processed_words,""))
-        else:
-          trans_sentence.append(get_definitions(word)[0])
-      processed_words.append(word)
+      pos = get_pos(word,i,sentence) #see if we can determine the part of speech
+      if pos != None: # if we know the POS, pick the best definition
+        trans_word = get_definitions(word,pos)[0]
+      elif with_rules: # If we're using our special translation rules
+        trans_word = get_definition_with_rules(i,sentence)
+      else: #we're just doing plain definition grabbing
+        trans_word = get_definitions(word)[0]
+      trans_sentence.append(trans_word)
     translated.append(trans_sentence)
   return translated
 
@@ -126,25 +122,25 @@ def print_text(sentences):
     sentence = sentence[0].upper() + sentence[1:]
     print sentence
 
+def tag_sentences(sentences):
+  tagged = []
+  for i,sentence in enumerate(sentences):
+    tagged.append(tagger.tag(sentence))
+    print "Tagged sentence %d of %d" % (i+1,len(sentences))
+  return tagged
+
 print "Loading source text..."
 load_text('text.txt')
+
 print "Loading dictionary..."
 load_dict('dict.txt')
 
 print "Doing first translation pass."
-translated = translate(text,dictionary,True)
-for sentence in translated:
-  result = ""
-  for word in sentence:
-    result += word + " "
-  print result
+translated = translate(text,dictionary,False)
+print_text(translated)
 
 print "Tagging..."
-tagger = tag.StanfordTagger('stanford-tagger/models/english-bidirectional-distsim.tagger','stanford-tagger/stanford-postagger.jar')
-tagged = []
-for i,sentence in enumerate(translated):
-  tagged.append(tagger.tag(sentence))
-  print "Tagged sentence %d of %d" % (i+1,len(translated))
+tagged = tag_sentences(translated)
 
 for sentence in tagged:
   print sentence
