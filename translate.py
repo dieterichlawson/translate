@@ -102,7 +102,7 @@ def translate(source,dictionary,with_rules):
       if len(word) == 1 and word in punctuation:
         trans_sentence.append(word)
         continue
-      pos = get_pos(word,i,sentence) #see if we can determine the part of speech
+      pos = get_pos(word,i,sentence)
       if pos != None: # if we know the POS, pick the best definition
         trans_word = get_definitions(word,pos)[0]
       elif with_rules: # If we're using our special translation rules
