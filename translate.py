@@ -47,6 +47,11 @@ def reorder_adverb_verb(tagged_sentence):
     result = tagged_sentence
     verb = result.pop(1)
     result.insert(2,verb)
+    for i,tup in enumerate(tagged_sentence):
+	if i > 3 and i < len(tagged_sentence)-1 and tagged_sentence[i-1][1]=='CC' and tagged_sentence[i][1][:2]=='VB' and (tagged_sentence[i+1][1] == 'PRP' or tagged_sentence[i+1][1] == 'EX' or tagged_sentence[i+1][1][:2] == 'NN'):
+		print "moving later in sentence"
+    		verb = result.pop(i)
+    		result.insert(i+1,verb)
     return result
   else:
     return tagged_sentence
@@ -133,8 +138,8 @@ def search_for_noun_phrase(tags,start):
   return (nouns_before,nouns_after)
 
 def get_noun_phrase(tags,direction,start):
-  left_tags = ['PRP','NN','NNS','IN','CD']
-  right_tags = ['NN','NNS','CD','PRP']
+  left_tags = ['DT','PRP','NN','NNS','IN','CD']
+  right_tags = ['NN','NNS','CD','PRP','VBG']
   punctuation = [',','.','?']
   phrase_tags = left_tags if direction == -1 else right_tags
   index = start + direction
@@ -162,12 +167,14 @@ def rearrange_modal_verbs(tagged_sentence):
       tagged_sentence.insert(modal_i+1,verb)
   return tagged_sentence
 
-def disamb_become(tagged_sentence):
-  words = [x[0] for x in tagged_sentence]
-  if ('should','become') in zip(words,words[1:]):
-    should_index = zip(words,words[1:]).index(('should','become'))
-    tagged_sentence[should_index +1] = ('be','VB')
-  return tagged_sentence
+def fix_to(sentence):
+  for i, word in enumerate(sentence):
+    if word[0] == 'to' and i != 0 and  sentence[i-1][0] == 'need':
+      if (sentence[i+1][1] == 'NN' or sentence[i+1][1] == 'JJ'):
+         sentence[i] = ('for','IN')
+  return sentence
+
+
 
 #if you don't want to use the cache, use this line:
 #text.load('text.txt','dict.txt',True,False)
@@ -182,22 +189,21 @@ print "Reordering..."
 print tagged
 reordered = []
 for i,sentence in enumerate(tagged):
-  """
   tagged[i] = fix_question(sentence)
   tagged[i] = reorder_subclause(tagged[i])
   tagged[i] = reorder_adverb_verb(tagged[i])
   tagged[i] = disamb_which(tagged[i])
   tagged[i] = disamb_it(tagged[i])
-  tagged[i] = rearrange_modals(tagged[i])
-  tagged[i] = rearrange_modal_verbs(tagged[i])
-  tagged[i] = disamb_become(tagged[i])
   tagged[i] = rewrite_than(tagged[i])
   tagged[i] = rewrite_something(tagged[i])
-  """
+  tagged[i] = rearrange_modals(tagged[i])
+  tagged[i] = rearrange_modal_verbs(tagged[i])
+  tagged[i] = fix_to(tagged[i])
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
   reordered.append(not_tagged)
 
+print tagged
 print "******* TRANSLATION *******"
 print_text(reordered)
