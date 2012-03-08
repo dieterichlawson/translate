@@ -4,6 +4,8 @@ from nltk import tag
 import re
 import text
 
+tobe_list = ['am','are','is','was','were']
+
 def print_text(sentences):
   for s in sentences:
     sentence = ' '.join(s)
@@ -49,6 +51,7 @@ def reorder_adverb_verb(tagged_sentence):
     return tagged_sentence
 
 def is_part_of_tobe(word):
+	return word in tobe_list
 
 def fix_question(sentence):
   if sentence[-1][0] == '?':

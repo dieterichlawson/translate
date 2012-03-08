@@ -73,7 +73,7 @@ vooraleer: before
 mondelinge: oral
 examen: exam
 start: start, take-off
-gaat: is, will, goes
+gaat: goes,is,will
 onder: under
 gezien: seen, because of
 een: a, an
