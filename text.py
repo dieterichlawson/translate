@@ -94,6 +94,7 @@ def write_cache():
       outword = word + '_' + pos
       outlist.append(outword)
     outfile.write('|'.join(outlist))
+    outfile.write('\n')
   outfile.close()
 
 def clear_cache():
