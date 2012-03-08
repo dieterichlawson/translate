@@ -1,3 +1,5 @@
 ### OS Files ###
 .DS_Store*
 *.pyc
+cached_tagged
+cached_translation
