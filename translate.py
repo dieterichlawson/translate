@@ -147,8 +147,8 @@ def search_for_noun_phrase(tags,start):
   return (nouns_before,nouns_after)
 
 def get_noun_phrase(tags,direction,start):
-  left_tags = ['PRP','NN','NNS','IN','CD']
-  right_tags = ['NN','NNS','CD','PRP']
+  left_tags = ['DT','PRP','NN','NNS','IN','CD']
+  right_tags = ['NN','NNS','CD','PRP','VBG']
   punctuation = [',','.','?']
   phrase_tags = left_tags if direction == -1 else right_tags
   index = start + direction
@@ -176,13 +176,6 @@ def rearrange_modal_verbs(tagged_sentence):
       tagged_sentence.insert(modal_i+1,verb)
   return tagged_sentence
 
-def disamb_become(tagged_sentence):
-  words = [x[0] for x in tagged_sentence]
-  if ('should','become') in zip(words,words[1:]):
-    should_index = zip(words,words[1:]).index(('should','become'))
-    tagged_sentence[should_index +1] = ('be','VB')
-  return tagged_sentence
-
 #if you don't want to use the cache, use this line:
 #text.load('text.txt','dict.txt',True,False)
 
@@ -201,15 +194,15 @@ for i,sentence in enumerate(tagged):
   tagged[i] = reorder_adverb_verb(tagged[i])
   tagged[i] = disamb_which(tagged[i])
   tagged[i] = disamb_it(tagged[i])
-  tagged[i] = rearrange_modals(tagged[i])
-  tagged[i] = rearrange_modal_verbs(tagged[i])
-  tagged[i] = disamb_become(tagged[i])
   tagged[i] = rewrite_than(tagged[i])
   tagged[i] = rewrite_something(tagged[i])
+  tagged[i] = rearrange_modals(tagged[i])
+  tagged[i] = rearrange_modal_verbs(tagged[i])
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
   reordered.append(not_tagged)
 
+print tagged
 print "******* TRANSLATION *******"
 print_text(reordered)
