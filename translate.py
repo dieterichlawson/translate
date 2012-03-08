@@ -156,7 +156,21 @@ def reorder_adverb_verb(tagged_sentence):
 		result.insert(2,verb)
 		return result
 	else:
-		return tagged_sentence
+		return tagged_sentence	
+
+def fix_question(sentence):
+  if sentence[-1][0] == '?':
+    if sentence[0][1] == "VBD":
+      for i, word in enumerate(sentence):
+        #print word
+        if len(word[1]) > 1 and word[1][1] == 'N':
+            newsent = [sentence[i-1], sentence[i]]
+            newsent = newsent+sentence[i:i-2]         
+            newsent.append(sentence[0])
+            sentence = newsent + sentence[i+1:]
+            break
+    return sentence
+
 		
 def tag_sentences(sentences):
   tagged = []
@@ -193,13 +207,16 @@ for i,sentence in enumerate(tagged):
   	print sentence
 	tagged[i] = disamb_it(sentence)
 
+
 print "Reordering..."
 reordered = []
-for sentence in tagged:
+for i,sentence in enumerate(tagged):
+  	if sentence[-1][0] == '?':
+    		tagged[i] = fix_question(sentence)
 	not_tagged = []	
-	reordered_sentence = reorder_subclause(sentence)
-	reordered_sentence = reorder_adverb_verb(reordered_sentence)
-	for tup in reordered_sentence:
+	tagged[i]= reorder_subclause(tagged[i])
+	tagged[i]= reorder_adverb_verb(tagged[i])
+	for tup in tagged[i]:
 		not_tagged.append(tup[0])
 	reordered.append(not_tagged)
 print_text(reordered)

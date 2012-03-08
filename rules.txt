@@ -1,1 +1,25 @@
-it <subclause> is -> it is <subclause>
+subclause reordering
+
+- In Dutch, the ordering in a dependent clause is SUBJECT ... VERB where SUBJECT is at the beginning of the clause and VERB is at the end. In English the order is SUBJECT VERB ... . We identify the clause by looking for a POS that is tagged IN.
+Then we look for the first PRP or NN(S), which we identify as the subject.
+The first verb is the VERB. We then move the VERB to the position right after the SUBJECT.
+
+
+- In Dutch, sentences can start with 'Adverb Verb Subject ...'. In these sentences we switch verb and subject. to create a better sounding English sentence. 
+
+
+disambiguation rules
+
+- 'het' can be 'it' or 'the'. We translate it as 'it' and change it to 
+the' if the following word is a noun.
+
+- 'dan' -> then / than by looking at previous word (than if it is a comparative, then otherwise)
+
+- mis -> mass / miss / wrong by looking at the previous word. if it is 'de'(determiner) 'mis' is translated as 'mass'. if 'mis' is preceded by a personal pronoun, it is translated as 'miss' (the verb). else it is translated as 'wrong'
+
+- choose between 'a' and 'an' by looking at next word
+
+- 'iets' can mean 'a little' or 'something', if te word succeeding it is a comparative, it is usually used as 'a little' 
+
+- 
+
