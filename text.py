@@ -31,42 +31,6 @@ def load(textfile = "text.txt", dictfile='dict.txt', with_rules=True,use_cache=T
     print "Loading translation and tagged words from cache..."
     load_cache()
 
-def get_definition_with_rules(currIndex,words):
-  currWord = words[currIndex]
-  nextWord = ''
-  if currIndex < len(words) -1: nextWord = words[currIndex+1]
-  prevWords = words[:currIndex]
-  if currWord=='dan':
-    if prevWords[-1][-2:]=='er':
-      return 'than'
-    else:
-      return 'then'
-  elif currWord=='mis':
-    lowerPrev = prevWords[-1]
-    if lowerPrev =='de':
-      return 'mass'
-    elif lowerPrev == 'ik':
-      return 'miss'
-    else:
-      return 'wrong'
-  elif currWord=='een':
-    if nextWord!='' and isVowel(get_definition_with_rules(0,[currWord])[0]):
-      return 'an'
-    else:
-      return 'a'
-  elif (currWord=='de' or currWord=='het') and len(prevWords)> 0 and prevWords[-1]=='van':
-    if len(prevWords) > 1 and prevWords[-2][-4:]=='heid':
-      return ''
-    else:
-      return 'the'
-  elif currWord=='iets':
-    if nextWord !='' and nextWord[-2:]=='er':
-      return 'a little'
-    else:
-      return 'something'
-  else:
-    return get_definitions(currWord)[0]
-
 def load_cache():
   in_translated = open(translated_file)
   for line in in_translated:
@@ -163,8 +127,6 @@ def translate(with_rules):
       pos = get_pos(word,i,sentence)
       if pos != None: # if we know the POS, pick the best definition
         trans_word = get_definitions(word,pos)[0]
-      elif with_rules: # If we're using our special translation rules
-        trans_word = get_definition_with_rules(i,sentence)
       else: #we're just doing plain definition grabbing
         trans_word = get_definitions(word)[0]
       trans_sentence.append(trans_word)

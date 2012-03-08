@@ -6,6 +6,42 @@ import text
 
 tobe_list = ['am','are','is','was','were']
 
+def get_definition_with_rules(currIndex,words):
+  currWord = words[currIndex]
+  nextWord = ''
+  if currIndex < len(words) -1: nextWord = words[currIndex+1]
+  prevWords = words[:currIndex]
+  if currWord=='dan':
+    if prevWords[-1][-2:]=='er':
+      return 'than'
+    else:
+      return 'then'
+  elif currWord=='mis':
+    lowerPrev = prevWords[-1]
+    if lowerPrev =='de':
+      return 'mass'
+    elif lowerPrev == 'ik':
+      return 'miss'
+    else:
+      return 'wrong'
+  elif currWord=='een':
+    if nextWord!='' and isVowel(get_definition_with_rules(0,[currWord])[0]):
+      return 'an'
+    else:
+      return 'a'
+  elif (currWord=='de' or currWord=='het') and len(prevWords)> 0 and prevWords[-1]=='van':
+    if len(prevWords) > 1 and prevWords[-2][-4:]=='heid':
+      return ''
+    else:
+      return 'the'
+  elif currWord=='iets':
+    if nextWord !='' and nextWord[-2:]=='er':
+      return 'a little'
+    else:
+      return 'something'
+  else:
+    return get_definitions(currWord)[0]
+
 def print_text(sentences):
   for s in sentences:
     sentence = ' '.join(s)
@@ -180,4 +216,3 @@ for i,sentence in enumerate(tagged):
 
 print "******* TRANSLATION *******"
 print_text(reordered)
-
