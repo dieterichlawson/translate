@@ -146,7 +146,19 @@ def reorder_subclause(tagged_sentence):
 		return result
 	else:
 		return tagged_sentence	
-		
+def fix_question(sentence):
+  if sentence[-1][0] == '?':
+    if sentence[0][1] == "VBD":
+      for i, word in enumerate(sentence):
+        #print word
+        if len(word[1]) > 1 and word[1][1] == 'N':
+            newsent = [sentence[i-1], sentence[i]]
+            newsent = newsent+sentence[i:i-2]         
+            newsent.append(sentence[0])
+            sentence = newsent + sentence[i+1:]
+            break
+    return sentence
+
 		
 def tag_sentences(sentences):
   tagged = []
@@ -167,7 +179,9 @@ print_text(translated)
 
 print "Tagging..."
 tagged = tag_sentences(translated)
-
+for sentence in tagged:
+  if sentence[-1][0] == '?':
+    sentence = fix_question(sentence)
 for sentence in tagged:
   	#print sentence
 	uselessVariable = 0
