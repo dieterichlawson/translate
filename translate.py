@@ -188,7 +188,17 @@ def disamb_it(tagged_sentence):
 			result_tup = ('the','DT')	
 		result.append(result_tup)
 	return result
-		
+
+def disamb_which(tagged_sentence):
+	sentence_len = len(tagged_sentence)
+	result = []
+	for i,tup in enumerate(tagged_sentence):
+		result_tup = tup
+		if i > 0 and tup[0]=='which' and tagged_sentence[i-1][1] == 'PRP':	
+			result_tup = ('who','WPRO')	
+		result.append(result_tup)
+	return result
+	
 
 print "Loading source text..."
 load_text('text.txt')
@@ -216,6 +226,7 @@ for i,sentence in enumerate(tagged):
 	not_tagged = []	
 	tagged[i]= reorder_subclause(tagged[i])
 	tagged[i]= reorder_adverb_verb(tagged[i])
+	tagged[i]= disamb_which(tagged[i])
 	for tup in tagged[i]:
 		not_tagged.append(tup[0])
 	reordered.append(not_tagged)
