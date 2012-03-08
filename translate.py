@@ -48,9 +48,11 @@ def reorder_adverb_verb(tagged_sentence):
   else:
     return tagged_sentence
 
+def is_part_of_tobe(word):
+
 def fix_question(sentence):
   if sentence[-1][0] == '?':
-    if sentence[0][1] == "VBD":
+    if sentence[0][1] == "VBD" and not is_part_of_tobe(sentence[0][0]):
       for i, word in enumerate(sentence):
         #print word
         if len(word[1]) > 1 and word[1][1] == 'N':
