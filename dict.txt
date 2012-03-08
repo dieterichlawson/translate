@@ -1,7 +1,7 @@
 is:is
 ik:I
-geloof_N:belief, faith, confidence, trust
-geloof_V:believe, have faith in, trust, have confidence in, think, reckon
+geloof_N:belief
+geloof_V:believe
 in: in
 de: the
 schoonheid: beauty
@@ -10,104 +10,104 @@ inspanning: effort
 en: and
 simpele: simple
 constatering: observation
-dat: that,which, who, that, those
-het:it,the
+dat: that
+het:it
 student: student
-zelf: himself, herself
-die: that, who
-diploma: diploma, degree
+zelf: himself
+die: that
+diploma: diploma
 moet: must
-behalen: get, win, acquire, accomplish, attain, earn, reach
-niemand:no-one, nobody
+behalen: get
+niemand:no-one
 anders: differently
 laatste: last
-lijkt: seems, resembles
+lijkt: seems
 vanzelfsprekend:self-evident
-toch: yet,then, surely, therefore, however, so
+toch: yet
 onderwijskundigen: education experts
 allerlei: variety of
-pluimage: plumage, different sorts
-die: which, who, that, those, what
-slechts: only, merely
+pluimage: plumage
+die: which
+slechts: only
 door: by
 lelijke: ugly
 onaantrekkelijkheid: unattractiveness
-met: with, on, through
+met: with
 elkaar: each other
 verbonden: connected
-beweren: claim, state, assert
+beweren: claim
 docenten: teachers
 falen: fail
 als: if, when
 studenten: students
 zakken_N: bags
-zakken_V:subside,lower,sink,founder,vail
+zakken_V:subside
 kregen: received
-voldoende: sufficient, enough
-begeleiding: support, supervision, counseling
-stond: stood, was
+voldoende: sufficient
+begeleiding: support
+stond: stood
 er: there
 altijd: always
-iemand: someone, somebody
-ter: to, at
-beschikking: disposal,available
+iemand: someone
+ter: to
+beschikking: disposal
 hen: them
 leerde: taught
 te: to
-leren: learn, study
+leren: learn
 Werd: was
 rekening: account
-gehouden: held, account
+gehouden: held
 hun: their
-karakter: character, personality
+karakter: character
 misschien: maybe
-zijn: are, to be
-ze: they, she
-schuchter: timid, coy
-hebben: have, possess
-nood: need, want
-aan: to,on,at,in,by,upon,beside
+zijn: are
+ze: they
+schuchter: timid
+hebben: have
+nood: need
+aan: to
 geruststellende: reassuring
-woorden: words, terms
+woorden: words
 vooraleer: before
 mondelinge: oral
 examen: exam
-start: start, take-off
-gaat: goes,is,will
+start: start
+gaat: goes
 onder: under
-gezien: seen, because of
-een: a, an
+gezien: seen
+een: a
 atypische: atypical
-maar: but, however
+maar: but
 geenszins: in no way
 minderwaardige: inferior
 hersenstructuur: brain structure
-iets: something, aught, some
+iets: something
 trager: slower
 denken: think
-waardoor: so, through what
-bij: at, in through
+waardoor: so
+bij: at
 schriftelijk: written
 niet: not
-over: about, across, on, over, of
+over: about
 twee: two
 drie: three
-uur: hour, hours
-moeten: should, must, need, have to
+uur: hour
+moeten: should
 beschikken: have
 wie: who
-weet: know, knows
+weet: know
 mis_A: wrong
 mis_N: mass
 bioritme: biorhythm
 examens: exams
 beter: better
-worden: become, are
+worden: become
 gespreid: spread
 veronderstel: suppose
 dyslectisch: dyslexic
-dan: than, then
-dienen: should, must, serve, minister
+dan: than
+dienen: should
 spelfouten: spelling errors
 mantel: cloak
 der: of
