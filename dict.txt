@@ -41,7 +41,7 @@ falen: fail
 als: if, when
 studenten: students
 zakken_N: bags
-zakken_V:lower,sink,subside,founder,vail
+zakken_V:subside,lower,sink,founder,vail
 kregen: received
 voldoende: sufficient, enough
 begeleiding: support, supervision, counseling
