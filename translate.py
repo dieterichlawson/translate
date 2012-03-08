@@ -6,35 +6,14 @@ import text
 
 tobe_list = ['am','are','is','was','were']
 
+
 def get_definition_with_rules(currIndex,words):
   currWord = words[currIndex]
   nextWord = ''
-  if currIndex < len(words) -1: nextWord = words[currIndex+1]
+  if currIndex < len(words) -1:
+	nextWord = words[currIndex+1]
   prevWords = words[:currIndex]
-  if currWord=='dan':
-    if prevWords[-1][-2:]=='er':
-      return 'than'
-    else:
-      return 'then'
-  elif currWord=='mis':
-    lowerPrev = prevWords[-1]
-    if lowerPrev =='de':
-      return 'mass'
-    elif lowerPrev == 'ik':
-      return 'miss'
-    else:
-      return 'wrong'
-  elif currWord=='een':
-    if nextWord!='' and isVowel(get_definition_with_rules(0,[currWord])[0]):
-      return 'an'
-    else:
-      return 'a'
-  elif (currWord=='de' or currWord=='het') and len(prevWords)> 0 and prevWords[-1]=='van':
-    if len(prevWords) > 1 and prevWords[-2][-4:]=='heid':
-      return ''
-    else:
-      return 'the'
-  elif currWord=='iets':
+  if currWord=='iets':
     if nextWord !='' and nextWord[-2:]=='er':
       return 'a little'
     else:
@@ -102,14 +81,29 @@ def fix_question(sentence):
           break
   return sentence
 
+def rewrite_than(tagged_sentence):
+	sent_len = len(tagged_sentence)
+	result = tagged_sentence
+	for i, tup in enumerate(tagged_sentence):
+		if i < sent_len-1 and tagged_sentence[i][0]=='than' and tagged_sentence[i+1][1] != 'JJR':
+			result[i] = ('then','CC')
+	return result
+		
+def rewrite_something(tagged_sentence):
+	sent_len = len(tagged_sentence)
+	result = tagged_sentence
+	for i, tup in enumerate(tagged_sentence):
+		if i < sent_len-1 and tagged_sentence[i][0]=='something' and tagged_sentence[i+1][1] == 'JJR':
+			result[i] = ('a little','JJ')
+	return result
+
 def disamb_it(tagged_sentence):
   sentence_len = len(tagged_sentence)
-  result = []
+  result = tagged_sentence
   for i,tup in enumerate(tagged_sentence):
-    result_tup = tup
     if i < sentence_len-1 and tup[0]=='it' and tagged_sentence[i+1][1][:2] == 'NN':
-      result_tup = ('the','DT')
-    result.append(result_tup)
+      print "switching it to the"
+      result[i] = ('the','DT')
   return result
 
 def disamb_which(tagged_sentence):
@@ -206,9 +200,12 @@ for i,sentence in enumerate(tagged):
   tagged[i] = reorder_subclause(tagged[i])
   tagged[i] = reorder_adverb_verb(tagged[i])
   tagged[i] = disamb_which(tagged[i])
+  tagged[i] = disamb_it(tagged[i])
   tagged[i] = rearrange_modals(tagged[i])
   tagged[i] = rearrange_modal_verbs(tagged[i])
   tagged[i] = disamb_become(tagged[i])
+  tagged[i] = rewrite_than(tagged[i])
+  tagged[i] = rewrite_something(tagged[i])
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
