@@ -123,31 +123,30 @@ def print_text(sentences):
     print sentence
 
 def reorder_subclause(tagged_sentence):
-	in_subclause = False
-	prev_is_noun_or_verb = False
-	subject_index = -1
-	verb_index = -1
-	for index,tup in enumerate(tagged_sentence):
-		if prev_is_noun_or_verb and tup[1] == 'IN':
-			in_subclause = True
-		if tup[1] == 'NN' or tup[1] == 'NNS' or tup[1][:2] == 'VB':
-			prev_is_noun_or_verb = True
-		else:
-			prev_is_noun_or_verb = False
-		if in_subclause:
-			if subject_index != -1 and verb_index==-1 and (tup[1][:2]=='VB' or tup[1] == 'MD'):
-				verb_index = index
-			elif subject_index == -1 and (tup[1][:2]=='NN' or tup[1]=='PRP'):
-				subject_index = index
-	if subject_index != -1 and verb_index  != -1:
-		result = tagged_sentence
-		verb = result.pop(verb_index)
-		result.insert(subject_index+1,verb)
-		return result
-	else:
-		return tagged_sentence	
-		
-		
+  in_subclause = False
+  prev_is_noun_or_verb = False
+  subject_index = -1
+  verb_index = -1
+  for index,tup in enumerate(tagged_sentence):
+    if prev_is_noun_or_verb and tup[1] == 'IN':
+      in_subclause = True
+    if tup[1] == 'NN' or tup[1] == 'NNS' or tup[1][:2] == 'VB':
+      prev_is_noun_or_verb = True
+    else:
+      prev_is_noun_or_verb = False
+    if in_subclause:
+      if subject_index != -1 and verb_index==-1 and (tup[1][:2]=='VB' or tup[1] == 'MD'):
+        verb_index = index
+      elif subject_index == -1 and (tup[1][:2]=='NN' or tup[1]=='PRP'):
+        subject_index = index
+  if subject_index != -1 and verb_index  != -1:
+    result = tagged_sentence
+    verb = result.pop(verb_index)
+    result.insert(subject_index+1,verb)
+    return result
+  else:
+    return tagged_sentence
+
 def tag_sentences(sentences):
   tagged = []
   for i,sentence in enumerate(sentences):
@@ -165,21 +164,25 @@ print "Doing first translation pass."
 translated = translate(text,dictionary,True)
 print_text(translated)
 
-print "Tagging..."
-tagged = tag_sentences(translated)
+if use_cached_tagged:
+  tagged = load_tagged()
+else:
+  print "Tagging..."
+  tagged = tag_sentences(translated)
+  cache_tagged()
 
 for sentence in tagged:
-  	#print sentence
-	uselessVariable = 0
+  print sentence
+  uselessVariable = 0
 
 print "Reordering..."
 for sentence in tagged:
-	reordered_sentence = reorder_subclause(sentence)
-	print "new sentence:"
-	res = ""
-	for tup in reordered_sentence:
-		res += tup[0].rstrip('\n') + " "
-	print res
+  reordered_sentence = reorder_subclause(sentence)
+  print "new sentence:"
+  res = ""
+  for tup in reordered_sentence:
+    res += tup[0].rstrip('\n') + " "
+  print res
 
 
 #print_text(translated)
