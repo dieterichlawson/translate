@@ -7,20 +7,6 @@ import text
 tobe_list = ['am','are','is','was','were']
 
 
-def get_definition_with_rules(currIndex,words):
-  currWord = words[currIndex]
-  nextWord = ''
-  if currIndex < len(words) -1:
-	nextWord = words[currIndex+1]
-  prevWords = words[:currIndex]
-  if currWord=='iets':
-    if nextWord !='' and nextWord[-2:]=='er':
-      return 'a little'
-    else:
-      return 'something'
-  else:
-    return get_definitions(currWord)[0]
-
 def print_text(sentences):
   for s in sentences:
     sentence = ' '.join(s)
@@ -196,6 +182,7 @@ print "Reordering..."
 print tagged
 reordered = []
 for i,sentence in enumerate(tagged):
+  """
   tagged[i] = fix_question(sentence)
   tagged[i] = reorder_subclause(tagged[i])
   tagged[i] = reorder_adverb_verb(tagged[i])
@@ -206,6 +193,7 @@ for i,sentence in enumerate(tagged):
   tagged[i] = disamb_become(tagged[i])
   tagged[i] = rewrite_than(tagged[i])
   tagged[i] = rewrite_something(tagged[i])
+  """
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
