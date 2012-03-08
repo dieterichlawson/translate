@@ -8,7 +8,12 @@ The first verb is the VERB. We then move the VERB to the position right after th
 - In Dutch, sentences can start with 'Adverb Verb Subject ...'. In these sentences we switch verb and subject. to create a better sounding English sentence. 
 
 - QUESTION RULE
--If the sentence is a question and the translation gives us a Verb as the first word, we switch the verb with the first noun + the word preceding the noun. IE. Verb 'the' Noun -> 'the' Noun Verb.
+  If the sentence is a question and the translation gives us a Verb as the first word, we switch the Verb with the first noun + the word preceding the noun. IE. "VERB 'the' Noun" -> "'the' Noun Verb".
+  This is neccessary because for example, in our passage we have a sentence that when translated gave us "Received the students suffcient support?" So our rule in this case will take the 
+  first noun/subject along with it's preceding word, "the student", and will move it infront of the verb "Received" giving "The students received suffcient support". There are other options
+  for handling such cases, but this one allowed us to keep the same words that were given in the translation and didn't require us to change the Verb tense. Another option could have rephrased
+  the question as "Did the students receive suffcient support?", but without more question type sentences to train our model, the decision to change the tesne of "received" and to add the words
+  "did the" would likely cause more issues than its worth.
 
 disambiguation rules
 
@@ -25,7 +30,7 @@ the' if the following word is a noun.
 
 - 'iets' can mean 'a little' or 'something', if te word succeeding it is a comparative, it is usually used as 'a little' 
 
-- 
+-
 
 SHOULD/MUST RULES
     In Dutch many of the 'modals' (should,must,may,etc...) are placed differently than in English.
