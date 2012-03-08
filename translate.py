@@ -86,6 +86,73 @@ def disamb_which(tagged_sentence):
     result.append(result_tup)
   return result
 
+def rearrange_modals(tagged_sentence):
+  tags = [x[1] for x in tagged_sentence]
+  if 'MD' in tags:
+    nouns_before, nouns_after = search_for_noun_phrase(tags,tags.index('MD'))
+    if (nouns_before and nouns_after) or (not nouns_before and not nouns_after):
+      return tagged_sentence
+    elif nouns_before and not nouns_after:
+      left = get_noun_phrase(tags,-1,tags.index('MD'))
+      word = tagged_sentence.pop(tags.index('MD'))
+      tagged_sentence.insert(left+1,word)
+    elif nouns_after and not nouns_before:
+      right = get_noun_phrase(tags,1,tags.index('MD'))
+      word = tagged_sentence.pop(tags.index('MD'))
+      tagged_sentence.insert(right-1,word)
+  return tagged_sentence
+
+def search_for_noun_phrase(tags,start):
+  punctuation = [',','.','?']
+  pre_punctuation = [(i,punc) for i,punc in enumerate(tags[:start]) if punc in punctuation]
+  post_punctuation = [(i+start,punc) for i,punc in enumerate(tags[start:]) if punc in punctuation]
+  pre = 0
+  post = len(tags) -1
+  if pre_punctuation != []:
+    pre = pre_punctuation[-1][0]
+  if post_punctuation != []:
+    post = post_punctuation[0][0]
+  nouns_before = 'NN' in tags[pre:start] or 'NNS' in tags[pre:start]
+  nouns_after = 'NN' in tags[start:post] or 'NNS' in tags[start:post]
+  return (nouns_before,nouns_after)
+
+def get_noun_phrase(tags,direction,start):
+  left_tags = ['PRP','NN','NNS','IN','CD']
+  right_tags = ['NN','NNS','CD','PRP']
+  punctuation = [',','.','?']
+  phrase_tags = left_tags if direction == -1 else right_tags
+  index = start + direction
+  while index >= 0 and index < len(tags) and tags[index] in phrase_tags and tags[index] not in punctuation:
+    index += direction
+  if index == start + direction:
+    return -1
+  else:
+    return index
+
+def rearrange_modal_verbs(tagged_sentence):
+  tags = [x[1] for x in tagged_sentence]
+  if 'MD' in tags:
+    modal_i = tags.index('MD')
+    if tags[modal_i+1] != 'VB' and 'VB' in tags[modal_i:]:
+      verb_index = tags[modal_i:].index('VB') + modal_i
+      verb = tagged_sentence.pop(verb_index)
+      tags.pop(verb_index)
+      after_verb = None
+      if verb_index < len(tags) and tags[verb_index] in ['JJ','VB']:
+        after_verb = tagged_sentence.pop(verb_index)
+
+      if after_verb != None:
+        tagged_sentence.insert(modal_i+1,after_verb)
+      tagged_sentence.insert(modal_i+1,verb)
+  return tagged_sentence
+
+def disamb_become(tagged_sentence):
+  words = [x[0] for x in tagged_sentence]
+  if ('should','become') in zip(words,words[1:]):
+    should_index = zip(words,words[1:]).index(('should','become'))
+    tagged_sentence[should_index +1] = ('be','VB')
+  return tagged_sentence
+
 #if you don't want to use the cache, use this line:
 #text.load('text.txt','dict.txt',True,False)
 
@@ -95,19 +162,18 @@ text.load()
 #grab the tagged words from the text module
 tagged = text.tagged
 
-for i,sentence in enumerate(tagged):
-  print sentence
-  tagged[i] = disamb_it(sentence)
-
 print "Reordering..."
 
 reordered = []
 for i,sentence in enumerate(tagged):
   tagged[i] = fix_question(sentence)
-  tagged[i]= reorder_subclause(tagged[i])
-  tagged[i]= reorder_adverb_verb(tagged[i])
-  tagged[i]= disamb_which(tagged[i])
-  not_tagged = []  
+  tagged[i] = reorder_subclause(tagged[i])
+  tagged[i] = reorder_adverb_verb(tagged[i])
+  tagged[i] = disamb_which(tagged[i])
+  #tagged[i] = rearrange_modals(tagged[i])
+  #tagged[i] = rearrange_modal_verbs(tagged[i])
+  #tagged[i] = disamb_become(tagged[i])
+  not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
   reordered.append(not_tagged)
