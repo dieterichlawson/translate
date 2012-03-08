@@ -175,6 +175,15 @@ def rearrange_modal_verbs(tagged_sentence):
         tagged_sentence.insert(modal_i+1,after_verb)
       tagged_sentence.insert(modal_i+1,verb)
   return tagged_sentence
+#
+def fix_to(sentence):
+  for i, word in enumerate(sentence):
+    if word[0] == 'to' and i != 0 and  sentence[i-1][0] == 'need':
+      if (sentence[i+1][1] == 'NN' or sentence[i+1][1] == 'JJ'):
+         sentence[i] = ('for','IN')
+  return sentence
+
+
 
 #if you don't want to use the cache, use this line:
 #text.load('text.txt','dict.txt',True,False)
@@ -198,6 +207,7 @@ for i,sentence in enumerate(tagged):
   tagged[i] = rewrite_something(tagged[i])
   tagged[i] = rearrange_modals(tagged[i])
   tagged[i] = rearrange_modal_verbs(tagged[i])
+  tagged[i] = fix_to(tagged[i])
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
