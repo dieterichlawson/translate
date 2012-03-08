@@ -8,6 +8,7 @@ The first verb is the VERB. We then move the VERB to the position right after th
 - In Dutch, sentences can start with 'Adverb Verb Subject ...'. In these sentences we switch verb and subject. to create a better sounding English sentence. 
 
 - QUESTION RULE
+-If the sentence is a question and the translation gives us a Verb as the first word, we switch the verb with the first noun + the word preceding the noun. IE. Verb 'the' Noun -> 'the' Noun Verb.
 
 disambiguation rules
 
