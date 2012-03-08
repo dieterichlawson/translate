@@ -178,5 +178,6 @@ for i,sentence in enumerate(tagged):
     not_tagged.append(tup[0])
   reordered.append(not_tagged)
 
+print "******* TRANSLATION *******"
 print_text(reordered)
 
