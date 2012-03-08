@@ -136,7 +136,7 @@ print "Loading dictionary..."
 load_dict('dict.txt')
 
 print "Doing first translation pass."
-translated = translate(text,dictionary,False)
+translated = translate(text,dictionary,True)
 print_text(translated)
 
 print "Tagging..."
@@ -144,9 +144,3 @@ tagged = tag_sentences(translated)
 
 for sentence in tagged:
   print sentence
-
-#print_text(translated)
-#for sentence in text:
-#  print sentence
-#for item in dictionary.items():
-#  print "%s: %s" % item
