@@ -10,8 +10,8 @@ inspanning: effort
 en: and
 simpele: simple
 constatering: observation
-dat: that
-het: the
+dat: that,which, who, that, those
+het:it,the
 student: student
 zelf: himself, herself
 die: that, who
@@ -20,9 +20,8 @@ moet: must
 behalen: get, win, acquire, accomplish, attain, earn, reach
 niemand:no-one, nobody
 anders: differently
-dat: which, who, that, those, what
 laatste: last
-lijkt: seem, resemble
+lijkt: seems, resembles
 vanzelfsprekend:self-evident
 toch: yet,then, surely, therefore, however, so
 onderwijskundigen: education experts
@@ -100,7 +99,7 @@ wie: who
 weet: know, knows
 mis_A: wrong
 mis_N: mass
-bioritme: biorythm
+bioritme: biorhythm
 examens: exams
 beter: better
 worden: become, are
