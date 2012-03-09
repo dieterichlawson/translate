@@ -92,8 +92,7 @@ def disamb_it(tagged_sentence):
   sentence_len = len(tagged_sentence)
   result = tagged_sentence
   for i,tup in enumerate(tagged_sentence):
-    if i < sentence_len-1 and tup[0]=='it' and tagged_sentence[i+1][1][:2] == 'NN':
-      print "switching it to the"
+    if i < sentence_len-1 and tup[0]=='it' and (tagged_sentence[i+1][1][:2] == 'NN' or tagged_sentence[i+1][1][:2] == 'JJ') :
       result[i] = ('the','DT')
   return result
 
