@@ -17,7 +17,7 @@ def print_text(sentences):
     sentence = re.sub('\s\.','.',sentence)
     sentence = re.sub('\s\?','?',sentence)
     sentence = sentence[0].upper() + sentence[1:]
-    sentence = re.sub(startgorule, 'starts', sentence)
+    sentence = re.sub(startgorule, 'starts', sentence) 
     sentence = re.sub(becomerule, "should be", sentence)
 
     print sentence
@@ -195,9 +195,9 @@ def change_a_to_an(sentence):
       sentence[i] = ('an', 'DT')
   return sentence
 
-def wp_word(sentence):
+def wpronoun_verb_fix(sentence):
   for i, word in enumerate(sentence):
-    if word[1] == 'WP' and i < len(sentence) and sentence[i+1][1] == 'VBP': #if WP word followed by Verb present tense ie. "Who care", add s to verb.
+    if word[1] == 'WP' and i < len(sentence) and sentence[i+1][1] == 'VBP':# and : #if WP word followed by Verb present tense ie. "Who care", add s to verb.
       sentence[i+1] = (sentence[i+1][0]+'s', 'VBP') # change tag to plural?
   return sentence
 
@@ -226,7 +226,7 @@ for i,sentence in enumerate(tagged):
   tagged[i] = replace_needto(tagged[i])
   #tagged[i] = fix_to(tagged[i]) This rule may not be needed because of the "fix_needto" rule -wlc
   tagged[i] = change_a_to_an(tagged[i])
-  tagged[i] = wp_word(tagged[i])
+  #tagged[i] = wpronoun_verb_fix(tagged[i])
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
