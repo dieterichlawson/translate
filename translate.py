@@ -11,7 +11,7 @@ punctuation = [',','.','?']
 def print_text(sentences):
   startgorule = re.compile("of start (goes|go)")
   becomerule = re.compile("should become", re.IGNORECASE)
-  
+
   for s in sentences:
     sentence = ' '.join(s)
     sentence = re.sub('\s,\s',', ',sentence)
@@ -217,6 +217,17 @@ def fix_seen(sentence):
   sentence.insert(seen_index,('because','IN'))
   return sentence
 
+def drop_modal_infinitive(sentence):
+  words = [x[0] for x in sentence]
+  if 'should' not in words: return sentence
+  tags = [x[1] for x in sentence]
+  should_index = words.index('should')
+  if ('TO','VB') in zip(tags[should_index+1:],tags[should_index+2:]):
+    to_index = zip(tags[should_index+1:],tags[should_index+2:]).index(('TO','VB'))
+    print 'TO INDEX: %d' % to_index
+    sentence.pop(to_index+ should_index + 1)
+  return sentence
+
 #if you don't want to use the cache, use this line:
 #text.load('text.txt','dict.txt',True,False)
 
@@ -225,11 +236,12 @@ text.load()
 
 #grab the tagged words from the text module
 tagged = text.tagged
-
-print "Reordering..."
 print tagged
+print_text(text.translated)
+print "Reordering..."
 reordered = []
 for i,sentence in enumerate(tagged):
+  tagged[i] = drop_modal_infinitive(tagged[i])
   tagged[i] = fix_question(sentence)
   tagged[i] = reorder_subclause(tagged[i])
   tagged[i] = reorder_adverb_verb(tagged[i])
@@ -249,6 +261,5 @@ for i,sentence in enumerate(tagged):
     not_tagged.append(tup[0])
   reordered.append(not_tagged)
 
-print tagged
 print "******* TRANSLATION *******"
 print_text(reordered)
