@@ -20,7 +20,6 @@ def print_text(sentences):
     sentence = sentence[0].upper() + sentence[1:]
     sentence = re.sub(startgorule, 'starts', sentence) 
     sentence = re.sub(becomerule, "should be", sentence)
-
     print sentence
 
 def reorder_subclause(tagged_sentence):
@@ -56,7 +55,6 @@ def reorder_adverb_verb(tagged_sentence):
     result.insert(2,verb)
     for i,tup in enumerate(tagged_sentence):
 	if i > 3 and i < len(tagged_sentence)-1 and tagged_sentence[i-1][1]=='CC' and tagged_sentence[i][1][:2]=='VB' and (tagged_sentence[i+1][1] == 'PRP' or tagged_sentence[i+1][1] == 'EX' or tagged_sentence[i+1][1][:2] == 'NN'):
-		print "moving later in sentence"
     		verb = result.pop(i)
     		result.insert(i+1,verb)
     return result
@@ -70,7 +68,6 @@ def fix_question(sentence):
   if sentence[-1][0] == '?':
     if sentence[0][1] == "VBD" and not is_part_of_tobe(sentence[0][0]):
       for i, word in enumerate(sentence):
-        #print word
         if len(word[1]) > 1 and word[1][1] == 'N':
           newsent = [sentence[i-1], sentence[i]]
           newsent = newsent+sentence[i:i-2]
@@ -224,7 +221,6 @@ def drop_modal_infinitive(sentence):
   should_index = words.index('should')
   if ('TO','VB') in zip(tags[should_index+1:],tags[should_index+2:]):
     to_index = zip(tags[should_index+1:],tags[should_index+2:]).index(('TO','VB'))
-    print 'TO INDEX: %d' % to_index
     sentence.pop(to_index+ should_index + 1)
   return sentence
 
@@ -235,9 +231,12 @@ def drop_modal_infinitive(sentence):
 text.load()
 
 #grab the tagged words from the text module
+print "****************** TAGGED *****************"
 tagged = text.tagged
 print tagged
+print "*********** DIRECT TRANSLATION ************"
 print_text(text.translated)
+print "*******************************************"
 print "Reordering..."
 reordered = []
 for i,sentence in enumerate(tagged):
@@ -261,5 +260,5 @@ for i,sentence in enumerate(tagged):
     not_tagged.append(tup[0])
   reordered.append(not_tagged)
 
-print "******* TRANSLATION *******"
+print "*************** TRANSLATION ***************"
 print_text(reordered)
