@@ -8,12 +8,18 @@ tobe_list = ['am','are','is','was','were']
 
 
 def print_text(sentences):
+  startgorule = re.compile("of start (goes|go)")
+  becomerule = re.compile("should become", re.IGNORECASE)
+  
   for s in sentences:
     sentence = ' '.join(s)
     sentence = re.sub('\s,\s',', ',sentence)
     sentence = re.sub('\s\.','.',sentence)
     sentence = re.sub('\s\?','?',sentence)
     sentence = sentence[0].upper() + sentence[1:]
+    sentence = re.sub(startgorule, 'starts', sentence)
+    sentence = re.sub(becomerule, "should be", sentence)
+
     print sentence
 
 def reorder_subclause(tagged_sentence):
@@ -71,6 +77,7 @@ def fix_question(sentence):
           sentence = newsent + sentence[i+1:]
           break
   return sentence
+
 
 def rewrite_than(tagged_sentence):
 	sent_len = len(tagged_sentence)
@@ -181,8 +188,18 @@ def fix_to(sentence):
       if (sentence[i+1][1] == 'NN' or sentence[i+1][1] == 'JJ'):
          sentence[i] = ('for','IN')
   return sentence
+vowels = "a|e|o|i|u|A|E|I|O|U"
+def change_a_to_an(sentence):
+  for i, word in enumerate(sentence):
+    if word[0] == 'a' and i < len(sentence) and (sentence[i+1][1] == 'NN' or sentence[i+1][1]) and re.search(vowels, sentence[i+1][0][0]):
+      sentence[i] = ('an', 'DT')
+  return sentence
 
-
+def wp_word(sentence):
+  for i, word in enumerate(sentence):
+    if word[1] == 'WP' and i < len(sentence) and sentence[i+1][1] == 'VBP': #if WP word followed by Verb present tense ie. "Who care", add s to verb.
+      sentence[i+1] = (sentence[i+1][0]+'s', 'VBP') # change tag to plural?
+  return sentence
 
 #if you don't want to use the cache, use this line:
 #text.load('text.txt','dict.txt',True,False)
@@ -207,7 +224,9 @@ for i,sentence in enumerate(tagged):
   tagged[i] = rearrange_modals(tagged[i])
   tagged[i] = rearrange_modal_verbs(tagged[i])
   tagged[i] = replace_needto(tagged[i])
-  tagged[i] = fix_to(tagged[i])
+  #tagged[i] = fix_to(tagged[i]) This rule may not be needed because of the "fix_needto" rule -wlc
+  tagged[i] = change_a_to_an(tagged[i])
+  tagged[i] = wp_word(tagged[i])
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
