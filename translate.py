@@ -5,6 +5,7 @@ import re
 import text
 
 tobe_list = ['am','are','is','was','were']
+punctuation = [',','.','?']
 
 
 def print_text(sentences):
@@ -130,7 +131,6 @@ def rearrange_modals(tagged_sentence):
   return tagged_sentence
 
 def search_for_noun_phrase(tags,start):
-  punctuation = [',','.','?']
   pre_punctuation = [(i,punc) for i,punc in enumerate(tags[:start]) if punc in punctuation]
   post_punctuation = [(i+start,punc) for i,punc in enumerate(tags[start:]) if punc in punctuation]
   pre = 0
@@ -177,7 +177,6 @@ def replace_needto(sentence):
   for i, word in enumerate(sentence):
     if word[0] == "need" and i < len(sentence)-2:
       if sentence[i-1][0] == "have" and sentence[i+1][0] == "to":
-        
         sentence = sentence[0:i-1] + sentence[i:i+1] + sentence[i+2:]
         break
   return sentence
@@ -199,6 +198,23 @@ def wpronoun_verb_fix(sentence):
   for i, word in enumerate(sentence):
     if word[1] == 'WP' and i < len(sentence) and sentence[i+1][1] == 'VBP':# and : #if WP word followed by Verb present tense ie. "Who care", add s to verb.
       sentence[i+1] = (sentence[i+1][0]+'s', 'VBP') # change tag to plural?
+  return sentence
+
+def fix_seen(sentence):
+  words = [x[0] for x in sentence]
+  if (',','seen') not in zip(words,words[1:]): return sentence
+  tags = [x[1] for x in sentence]
+  seen_index = zip(words,words[1:]).index((',','seen')) + 1
+  found_verb = False
+  for i in range(seen_index+1,len(tags)):
+    if words[i] in punctuation: break
+    if tags[i][0:2] == 'VB':
+      found_verb = True
+      break
+  sentence.pop(seen_index)
+  if not found_verb:
+    sentence.insert(seen_index,('of','IN'))
+  sentence.insert(seen_index,('because','IN'))
   return sentence
 
 #if you don't want to use the cache, use this line:
@@ -227,6 +243,7 @@ for i,sentence in enumerate(tagged):
   #tagged[i] = fix_to(tagged[i]) This rule may not be needed because of the "fix_needto" rule -wlc
   tagged[i] = change_a_to_an(tagged[i])
   #tagged[i] = wpronoun_verb_fix(tagged[i])
+  tagged[i] = fix_seen(tagged[i])
   not_tagged = []
   for tup in tagged[i]:
     not_tagged.append(tup[0])
