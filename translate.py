@@ -9,7 +9,7 @@ punctuation = [',','.','?']
 
 
 def print_text(sentences):
-  startgorule = re.compile("of start (goes|go)")
+  startgorule = re.compile("of start goes")
   becomerule = re.compile("should become", re.IGNORECASE)
 
   for s in sentences:
@@ -251,7 +251,6 @@ for i,sentence in enumerate(tagged):
   tagged[i] = rearrange_modals(tagged[i])
   tagged[i] = rearrange_modal_verbs(tagged[i])
   tagged[i] = replace_needto(tagged[i])
-  #tagged[i] = fix_to(tagged[i]) This rule may not be needed because of the "fix_needto" rule -wlc
   tagged[i] = change_a_to_an(tagged[i])
   #tagged[i] = wpronoun_verb_fix(tagged[i])
   tagged[i] = fix_seen(tagged[i])
